@@ -1,0 +1,21 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@shopify/esnext",
+		"plugin:@shopify/node",
+		"plugin:@shopify/typescript-type-checking",
+		"plugin:@shopify/typescript"
+	],
+	"rules": {
+		"indent-legacy": ["error", 4],
+		"indent": ["error", 4],
+		"arraysInObjects": 0,
+		"allowIndentationTabs": true,
+		"quotes": ["error", "single"]
+	}
+}
