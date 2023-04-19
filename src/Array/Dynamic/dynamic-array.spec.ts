@@ -1,0 +1,44 @@
+import { DynamicArray } from './dynamic-array';
+
+describe('DynamicArray', () => {
+	let dynamicArray: DynamicArray;
+
+	beforeEach(() => {
+		dynamicArray = new DynamicArray();
+	});
+
+	describe('add', () => {
+		it('should add a single element to the array', () => {
+			const result = dynamicArray.add(1);
+			expect(result).toEqual([1]);
+		});
+
+		it('should add multiple elements to the array', () => {
+			const result = dynamicArray.add([1, 2, 3]);
+			expect(result).toEqual([1, 2, 3]);
+		});
+
+		it('should add an object to the array', () => {
+			const result = dynamicArray.add({ foo: 'bar', baz: 'qux' });
+			expect(result).toEqual(['bar', 'qux']);
+		});
+
+		it('should double the capacity when adding elements exceeding the current capacity', () => {
+			dynamicArray.add(1);
+			dynamicArray.add(2);
+			expect(dynamicArray.capacity).toEqual(4);
+		});
+	});
+
+	describe('adaptLength', () => {
+		it('should double the capacity if the input is greater than the current capacity', () => {
+			dynamicArray.adaptLength(10);
+			expect(dynamicArray.capacity).toEqual(20);
+		});
+
+		it('should not change the capacity if the input is less than or equal to the current capacity', () => {
+			dynamicArray.adaptLength(5);
+			expect(dynamicArray.capacity).toEqual(0);
+		});
+	});
+});
