@@ -4,7 +4,7 @@ export class DynamicArray extends StaticArray {
 	constructor(array: any[] = []) {
 		super(array);
 		this.len = array.length;
-		this.capacity = array.length + 1;
+		this.capacity = array.length;
 	}
 
 	add(input: any): any[] | Error {
@@ -12,8 +12,6 @@ export class DynamicArray extends StaticArray {
 		let len = this.len;
 		if (typeof input !== 'object' && !Array.isArray(input)) {
 			len = arr.push(input);
-			console.log({ len });
-			console.log(this.capacity);
 			this.adaptLength(len);
 		} else if (Array.isArray(input)) {
 			for (const i of input) {
@@ -29,14 +27,9 @@ export class DynamicArray extends StaticArray {
 		return this.toArray();
 	}
 
-	adaptLength(input: number) {
+	private adaptLength(input: number) {
 		if (input > this.capacity) {
-			this.capacity = this.capacity * 2;
-			const newArr = new Array(this.capacity);
-			for (let i = 0; i < this.array.length; i++) {
-				newArr[i] = this.array[i];
-			}
-			this.array = newArr;
+			this.capacity = this.capacity === 0 ? this.capacity + 1 : this.capacity * 2;
 		}
 	}
 }

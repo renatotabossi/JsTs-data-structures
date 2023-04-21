@@ -26,19 +26,8 @@ describe('DynamicArray', () => {
 		it('should double the capacity when adding elements exceeding the current capacity', () => {
 			dynamicArray.add(1);
 			dynamicArray.add(2);
+			dynamicArray.add(3);
 			expect(dynamicArray.capacity).toEqual(4);
-		});
-	});
-
-	describe('adaptLength', () => {
-		it('should double the capacity if the input is greater than the current capacity', () => {
-			dynamicArray.adaptLength(10);
-			expect(dynamicArray.capacity).toEqual(20);
-		});
-
-		it('should not change the capacity if the input is less than or equal to the current capacity', () => {
-			dynamicArray.adaptLength(5);
-			expect(dynamicArray.capacity).toEqual(0);
 		});
 	});
 });
