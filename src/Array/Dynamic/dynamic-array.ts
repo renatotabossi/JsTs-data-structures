@@ -8,20 +8,18 @@ export class DynamicArray extends StaticArray {
 	}
 
 	add(input: any): any[] | Error {
-		const arr = this.array;
-		let len = this.len;
 		if (typeof input !== 'object' && !Array.isArray(input)) {
-			len = arr.push(input);
-			this.adaptLength(len);
+			this.len = this.array.push(input);
+			this.adaptLength(this.len);
 		} else if (Array.isArray(input)) {
 			for (const i of input) {
-				len = arr.push(i);
-				this.adaptLength(len);
+				this.len = this.array.push(i);
+				this.adaptLength(this.len);
 			}
 		} else {
 			for (const i of Object.values(input)) {
-				len = arr.push(i);
-				this.adaptLength(len);
+				this.len = this.array.push(i);
+				this.adaptLength(this.len);
 			}
 		}
 		return this.toArray();

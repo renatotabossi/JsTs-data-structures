@@ -10,20 +10,18 @@ export class StaticArray {
 	}
 
 	add(input: any): any[] | Error {
-		const arr = this.array;
-		let len = this.len;
 		if (typeof input !== 'object' && !Array.isArray(input)) {
-			len = arr.push(input);
-			this.capacityError(len, this.capacity);
+			this.len = this.array.push(input);
+			this.capacityError(this.len, this.capacity);
 		} else if (Array.isArray(input)) {
 			for (const i of input) {
-				len = arr.push(i);
-				this.capacityError(len, this.capacity);
+				this.len = this.array.push(i);
+				this.capacityError(this.len, this.capacity);
 			}
 		} else {
 			for (const i of Object.values(input)) {
-				len = arr.push(i);
-				this.capacityError(len, this.capacity);
+				this.len = this.array.push(i);
+				this.capacityError(this.len, this.capacity);
 			}
 		}
 		return this.toArray();
@@ -35,8 +33,7 @@ export class StaticArray {
 	}
 
 	set(input: any, index: number): any[] {
-		let arr = this.array;
-		arr[index] = input;
+		this.array[index] = input;
 		return this.toArray();
 	}
 
@@ -57,9 +54,8 @@ export class StaticArray {
 	}
 
 	indexOf(input: any): number {
-		let arr = this.array;
-		for (let index = 0; index < arr.length; index++) {
-			if (input === arr[index]) {
+		for (let index = 0; index < this.array.length; index++) {
+			if (input === this.array[index]) {
 				return index;
 			}
 		}
