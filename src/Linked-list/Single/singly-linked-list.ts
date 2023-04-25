@@ -22,6 +22,8 @@ export class SinglyLinkedList {
 			this.tail!.next = new Node(elem, null);
 			this.tail = this.tail!.next;
 		}
+
+		this.size++;
 	}
 
 	toString(data: any): string {
@@ -29,7 +31,7 @@ export class SinglyLinkedList {
 	}
 
 	isEmpty(): boolean {
-		return !!(this.size !== 0);
+		return !!(this.size === 0);
 	}
 
 	listSize(): number {
@@ -52,8 +54,11 @@ export class SinglyLinkedList {
 
 	removeFirst(): void | string {
 		if (this.isEmpty()) return 'Linked List is empty';
-
-		this.head = this.head!.next;
+		if (this.size === 1) {
+			this.tail = this.head = null;
+		} else {
+			this.head = this.head!.next;
+		}
 		this.size--;
 	}
 

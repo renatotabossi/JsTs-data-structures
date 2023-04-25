@@ -1,19 +1,20 @@
-export class SinglyLinkedList {
-	size: number = 0;
-	head: Node;
-	tail: Node;
+import { SinglyLinkedList } from '../Single/singly-linked-list';
 
-	constructor(head: Node, tail: Node) {
-		this.head = head || null;
-		this.tail = tail || null;
+export class DoublyLinkedList extends SinglyLinkedList {
+	size: number = 0;
+	head: Node | null = null;
+	tail: Node | null = null;
+
+	constructor() {
+		super();
 	}
 
 	addFirst(elem: any): void {
 		if (this.isEmpty()) {
 			this.head = this.tail = new Node(elem, null, null);
 		} else {
-			this.head.prev = new Node(elem, null, this.head);
-			this.head = this.head.prev;
+			this.head!.prev = new Node(elem, null, this.head);
+			this.head = this.head!.prev;
 		}
 
 		this.size++;
@@ -23,23 +24,27 @@ export class SinglyLinkedList {
 		if (this.isEmpty()) {
 			this.head = this.tail = new Node(elem, null, null);
 		} else {
-			this.tail = new Node(elem, this.tail, null);
+			this.tail!.next = new Node(elem, this.tail, null);
+			this.tail = this.tail!.next;
 		}
 	}
 
-	toString(data: any): string {
-		return data.toString();
+	removeLast(): void | string {
+		if (this.isEmpty()) return 'Linked List is empty';
+		this.tail!.prev!.next = null;
+		this.tail = this.tail!.prev;
 	}
 
-	isEmpty(): boolean {
-		return !!(this.size !== 0);
+	removeFirst(): void | string {
+		if (this.isEmpty()) return 'Linked List is empty';
+		this.head!.next!.prev = null;
+		this.head = this.head!.next;
 	}
 }
-
 export class Node {
-	data: any;
-	next: Node;
-	prev: Node;
+	data: any | null;
+	next: Node | null;
+	prev: Node | null;
 
 	constructor(data: any, prev: any, next: any) {
 		this.data = data;
