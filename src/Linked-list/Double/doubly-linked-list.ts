@@ -27,18 +27,35 @@ export class DoublyLinkedList extends SinglyLinkedList {
 			this.tail!.next = new Node(elem, this.tail, null);
 			this.tail = this.tail!.next;
 		}
+		this.size++;
 	}
 
-	removeLast(): void | string {
+	removeLast(): Partial<Node> | string {
 		if (this.isEmpty()) return 'Linked List is empty';
-		this.tail!.prev!.next = null;
-		this.tail = this.tail!.prev;
+		const tail = this.tail!.data;
+
+		if (this.size === 1) {
+			this.tail = this.head = null;
+		} else {
+			this.tail!.prev!.next = null;
+			this.tail = this.tail!.prev;
+		}
+		this.size--;
+		return tail;
 	}
 
-	removeFirst(): void | string {
+	removeFirst(): Partial<Node> | string {
 		if (this.isEmpty()) return 'Linked List is empty';
-		this.head!.next!.prev = null;
-		this.head = this.head!.next;
+		const head = this.head!.data;
+
+		if (this.size === 1) {
+			this.head = this.tail = null;
+		} else {
+			this.head!.next!.prev = null;
+			this.head = this.head!.next;
+		}
+		this.size--;
+		return head;
 	}
 }
 export class Node {

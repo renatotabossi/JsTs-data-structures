@@ -52,21 +52,29 @@ export class SinglyLinkedList {
 		return this.tail?.data;
 	}
 
-	removeFirst(): void | string {
+	removeFirst(): Partial<Node> | string {
 		if (this.isEmpty()) return 'Linked List is empty';
 		if (this.size === 1) {
+			const head = this.head!.data;
 			this.tail = this.head = null;
+			this.size--;
+			return head;
 		} else {
+			const head = this.head!.data;
 			this.head = this.head!.next;
+			this.size--;
+			return head;
 		}
-		this.size--;
 	}
 
-	removeLast(): void | string {
+	removeLast(): Partial<Node> | string {
 		if (this.isEmpty()) return 'Linked List is empty';
 
 		if (this.size === 1) {
+			let head = this.head!.data;
 			this.head = this.tail = null;
+			this.size--;
+			return head!;
 		} else {
 			let prevNode: Node | null = null;
 			let currNode: Node | null = this.head;
@@ -77,8 +85,10 @@ export class SinglyLinkedList {
 
 			this.tail = prevNode;
 			this.tail!.next = null;
+
+			this.size--;
+			return currNode!.data;
 		}
-		this.size--;
 	}
 
 	remove(elem: any): void {
