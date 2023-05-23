@@ -73,4 +73,8 @@ export class StaticArray {
 	protected capacityError(length: number, capacity: number) {
 		if (length > capacity) throw new Error('Out of Capacity');
 	}
+
+	length(): number {
+		return this.len;
+	}
 }
