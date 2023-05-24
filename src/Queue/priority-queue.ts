@@ -55,27 +55,27 @@ export class PriorityQueue {
 	}
 
 	swap(i: number, j: number): void {
-		const index_i = this.heap.indexOf(i);
-		const index_j = this.heap.indexOf(j);
+		const indexI = this.heap.indexOf(i);
+		const indexJ = this.heap.indexOf(j);
 
-		const elem_i = this.heap.get(index_i);
-		const elem_j = this.heap.get(index_j);
+		const elemI = this.heap.get(indexI);
+		const elemJ = this.heap.get(indexJ);
 
-		this.heap.set(elem_i, index_j);
-		this.heap.set(elem_j, index_i);
+		this.heap.set(elemI, elemJ);
+		this.heap.set(elemJ, elemI);
 	}
 
 	less(i: number, j: number): boolean {
-		const index_i = this.heap.indexOf(i);
-		const index_j = this.heap.indexOf(j);
+		const indexI = this.heap.indexOf(i);
+		const indexJ = this.heap.indexOf(j);
 
-		const elem_i = this.heap.get(index_i);
-		const elem_j = this.heap.get(index_j);
+		const elemI = this.heap.get(indexI);
+		const elemJ = this.heap.get(indexJ);
 
-		return elem_i < elem_j;
+		return elemI < elemJ;
 	}
 
-	swim(i: number) {
+	swim(i: number): void {
 		let parentIndex = Math.floor((i - 1) / 2);
 
 		while (i > 0 && this.less(i, parentIndex)) {
@@ -83,6 +83,23 @@ export class PriorityQueue {
 			i = parentIndex;
 
 			parentIndex = Math.floor((i - 1) / 2);
+		}
+	}
+
+	sink(i: number): void {
+		while (true) {
+			let left = 2 * i + 1;
+			let right = 2 * i + 2;
+			let smallest = left;
+
+			if (right < this.heapSize && this.less(right, left)) {
+				smallest = right;
+			}
+
+			if (left >= this.heapSize || this.less(i, smallest)) break;
+
+			this.swap(smallest, i);
+			i = smallest;
 		}
 	}
 }
