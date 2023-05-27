@@ -8,10 +8,8 @@ import { DynamicArray } from '../Array/Dynamic/dynamic-array';
 export class PriorityQueue {
 	private heapSize: number = 0;
 
-	// The internal capacity of the heap
 	private heapCapacity: number = 0;
 
-	// A dynamic list to track the elements inside the heap
 	private heap: DynamicArray;
 
 	constructor(heap: Array<number> | Array<string>) {
@@ -19,30 +17,35 @@ export class PriorityQueue {
 	}
 
 	isEmpty(): Boolean {
-		if (this.heapSize === 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.heapSize === 0;
 	}
 
 	clear(): void {
 		if (this.heapSize === 0) return;
 
-		this.heap.clear;
+		this.heap.clear();
 	}
 
 	size(): number {
 		return this.heapSize;
 	}
 
-	peek(): any {
+	peek(): number | string | null {
 		if (this.heapSize === 0) return null;
 
 		return this.heap.get(0);
 	}
 
-	poll(): void {}
+	poll(): number | string | null {
+		if (this.heapSize === 0) return null;
+		const root = this.heap.get(0);
+		const lastElement = this.heap.get(this.heapSize - 1);
+		this.heap.set(0, lastElement);
+		this.heap.removeAt(this.heapSize - 1);
+		this.heapSize--;
+		this.sink(0);
+		return root;
+	}
 
 	contains(el: number | string): boolean {
 		if (this.heapSize === 0) return false;
@@ -55,22 +58,16 @@ export class PriorityQueue {
 	}
 
 	swap(i: number, j: number): void {
-		const indexI = this.heap.indexOf(i);
-		const indexJ = this.heap.indexOf(j);
+		const elemI = this.heap.get(i);
+		const elemJ = this.heap.get(j);
 
-		const elemI = this.heap.get(indexI);
-		const elemJ = this.heap.get(indexJ);
-
-		this.heap.set(elemI, elemJ);
-		this.heap.set(elemJ, elemI);
+		this.heap.set(i, elemJ);
+		this.heap.set(j, elemI);
 	}
 
 	less(i: number, j: number): boolean {
-		const indexI = this.heap.indexOf(i);
-		const indexJ = this.heap.indexOf(j);
-
-		const elemI = this.heap.get(indexI);
-		const elemJ = this.heap.get(indexJ);
+		const elemI = this.heap.get(i);
+		const elemJ = this.heap.get(j);
 
 		return elemI < elemJ;
 	}
