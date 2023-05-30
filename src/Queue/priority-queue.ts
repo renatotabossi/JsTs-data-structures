@@ -1,19 +1,12 @@
-// let i be the parent node index
-// left child index: 2i + 1
-// right child index: 2i + 2
-// zero based
-
-import { DynamicArray } from '../Array/Dynamic/dynamic-array';
-
 export class PriorityQueue {
 	private heapSize: number = 0;
 
-	private heapCapacity: number = 0;
+	private map: Map<number, number> = new Map()
 
-	private heap: DynamicArray;
+	private heap: Array<number>;
 
-	constructor(heap: Array<number> | Array<string>) {
-		this.heap = new DynamicArray(heap);
+	constructor(heap: Array<number>) {
+		this.heap = heap;
 	}
 
 	isEmpty(): Boolean {
@@ -23,34 +16,43 @@ export class PriorityQueue {
 	clear(): void {
 		if (this.heapSize === 0) return;
 
-		this.heap.clear();
+		this.heap = [];
+		this.heapSize = 0;
+	}
+
+	set(input: any, index: number): any[] {
+		this.heap[index] = input;
+		
+		return this.toArray();
+	}
+
+	toArray(): any[] {
+		return [...this.heap];
 	}
 
 	size(): number {
 		return this.heapSize;
 	}
 
+	get(index: number): any {
+		return this.heap[index];
+	}
+
 	peek(): number | string | null {
 		if (this.heapSize === 0) return null;
 
-		return this.heap.get(0);
+		return this.get(0);
 	}
 
-	poll(): number | string | null {
-		if (this.heapSize === 0) return null;
-		const root = this.heap.get(0);
-		const lastElement = this.heap.get(this.heapSize - 1);
-		this.heap.set(0, lastElement);
-		this.heap.removeAt(this.heapSize - 1);
-		this.heapSize--;
-		this.sink(0);
-		return root;
+	poll(): number | void {
+		if (this.heapSize === 0) return;
+		return this.removeAt(0);
 	}
 
-	contains(el: number | string): boolean {
+	contains(el: number): boolean {
 		if (this.heapSize === 0) return false;
 		for (let index = 0; index < this.heapSize; index++) {
-			if (this.heap.get(index) === el) {
+			if (this.get(index) === el) {
 				return true;
 			}
 		}
@@ -58,16 +60,16 @@ export class PriorityQueue {
 	}
 
 	swap(i: number, j: number): void {
-		const elemI = this.heap.get(i);
-		const elemJ = this.heap.get(j);
+		const elemI = this.get(i);
+		const elemJ = this.get(j);
 
-		this.heap.set(i, elemJ);
-		this.heap.set(j, elemI);
+		this.set(elemJ, i);
+		this.set(elemI, j);
 	}
 
 	less(i: number, j: number): boolean {
-		const elemI = this.heap.get(i);
-		const elemJ = this.heap.get(j);
+		const elemI = this.get(i);
+		const elemJ = this.get(j);
 
 		return elemI < elemJ;
 	}
@@ -78,7 +80,6 @@ export class PriorityQueue {
 		while (i > 0 && this.less(i, parentIndex)) {
 			this.swap(parentIndex, i);
 			i = parentIndex;
-
 			parentIndex = Math.floor((i - 1) / 2);
 		}
 	}
@@ -98,5 +99,44 @@ export class PriorityQueue {
 			this.swap(smallest, i);
 			i = smallest;
 		}
+	}
+
+	add(elem: number): void {
+		if (elem === null) return;
+
+		this.set(elem, this.heapSize);
+		
+		this.swim(this.heapSize);
+		this.heapSize++;
+	}
+
+	remove(elem: number): boolean {
+		if (this.isEmpty()) return false;
+
+		const i = this.heap.indexOf(elem);
+
+		if (i >= 0) {
+			this.removeAt(i);
+			return true;
+		}
+
+		return false;
+	}
+
+	removeAt(i: number): number | void{
+		if (this.isEmpty()) return;
+		const root = this.get(0);
+		this.heapSize--;
+
+		this.swap(i, this.heapSize);
+
+		this.set(null, this.heapSize);
+
+		let elem = this.get(i);
+
+		this.sink(i);
+
+		if (this.get(i) === elem) this.swim(i);
+		return root
 	}
 }

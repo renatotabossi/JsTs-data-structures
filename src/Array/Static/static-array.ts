@@ -34,6 +34,7 @@ export class StaticArray {
 
 	set(input: any, index: number): any[] {
 		this.array[index] = input;
+		console.log(this.array);
 		return this.toArray();
 	}
 
